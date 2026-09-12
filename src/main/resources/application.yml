@@ -4,7 +4,7 @@ spring:
 #  Mongo db configuration
   data:
     mongodb:
-      uri: mongodb://mongo:DCJGxnprkUETEnTxHKcOVZMxDJgFVWxi@mongodb.railway.internal:27017
+      uri: ${MONGO_URL}
 
 server:
-  port: 8081
+  port: ${PORT:8080}
