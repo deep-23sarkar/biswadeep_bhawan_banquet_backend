@@ -14,6 +14,13 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
 
+    @GetMapping
+    public ResponseEntity<String> greet() {
+        return ResponseEntity.ok("Hello from server, Backend works perfectly");
+    }
+    
+
+
     //Photos
     @PostMapping("/postphoto")
     public ResponseEntity<PostDto> createPost(@RequestBody RequestPostDto req){
