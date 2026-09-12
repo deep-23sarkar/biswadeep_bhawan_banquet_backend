@@ -14,7 +14,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000","http://localhost:3001","https://biswadeep-bhawan-banquet.vercel.app/","https://biswadeep-bhawan-banquet-guga.vercel.app/")
+                        .allowedOrigins("http://localhost:3000","http://localhost:3001","https://biswadeep-bhawan-banquet.vercel.app","https://biswadeep-bhawan-banquet-guga.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
