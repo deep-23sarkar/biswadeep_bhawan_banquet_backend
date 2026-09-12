@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: banquetHall
+#  Mongo db configuration
+  data:
+    mongodb:
+      uri: mongodb://mongo:DCJGxnprkUETEnTxHKcOVZMxDJgFVWxi@mongodb.railway.internal:27017
+
+server:
+  port: 8081
