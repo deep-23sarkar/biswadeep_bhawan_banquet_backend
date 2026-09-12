@@ -18,7 +18,7 @@ public class AdminController {
     public ResponseEntity<String> greet() {
         return ResponseEntity.ok("Hello from server, Backend works perfectly");
     }
-    
+
 
 
     //Photos
