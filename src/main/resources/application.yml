@@ -4,7 +4,7 @@ spring:
 #  Mongo db configuration
   data:
     mongodb:
-      uri: ${MONGO_URL}
+      uri: ${MONGO_PUBLIC_URL}
 
 server:
   port: ${PORT:8080}
