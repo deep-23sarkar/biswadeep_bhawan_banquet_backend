@@ -22,31 +22,35 @@ public class AdminService {
     //Create post means uploads photo
     public PostDto createPost(RequestPostDto req){
 
-        long autoIncId = pictureRepository.findAll().size();
+        try{
+            long autoIncId = pictureRepository.findAll().size();
 
-        if(req.getImage().isEmpty() || !req.getImage().contains("https://res.cloudinary.com")){
-            throw new RuntimeException("Image not found");
+            if(req.getImage().isEmpty() || !req.getImage().contains("https://res.cloudinary.com")){
+                throw new RuntimeException("Image not found");
+            }
+
+
+            PostPictureModel result = PostPictureModel.builder()
+                    .image(req.getImage())
+                    .seq(autoIncId+1)
+                    .title(req.getTitle())
+                    .category(req.getCategory())
+                    .build();
+            PostPictureModel savedPost = pictureRepository.save(result);
+
+            PostDto response = new PostDto();
+            response.setId(savedPost.getId());
+            response.setImage(savedPost.getImage());
+            response.setTitle(savedPost.getTitle());
+            response.setSeq(savedPost.getSeq());
+            response.setCategory(savedPost.getCategory());
+            response.setCreatedAt(savedPost.getCreatedAt());
+            response.setUpdatedAt(savedPost.getUpdatedAt());
+
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create post: ",e);
         }
-
-
-        PostPictureModel result = PostPictureModel.builder()
-                .image(req.getImage())
-                .seq(autoIncId+1)
-                .title(req.getTitle())
-                .category(req.getCategory())
-                .build();
-        PostPictureModel savedPost = pictureRepository.save(result);
-
-        PostDto response = new PostDto();
-        response.setId(savedPost.getId());
-        response.setImage(savedPost.getImage());
-        response.setTitle(savedPost.getTitle());
-        response.setSeq(savedPost.getSeq());
-        response.setCategory(savedPost.getCategory());
-        response.setCreatedAt(savedPost.getCreatedAt());
-        response.setUpdatedAt(savedPost.getUpdatedAt());
-
-        return response;
     }
 
     public List<PostDto> getAllPosts() {
@@ -70,30 +74,36 @@ public class AdminService {
 
     public ReviewDto createReview(RequestReviewDto req) {
 
-        long autoIncId = reviewRepository.findAll().size();
+        try {
+            long autoIncId = reviewRepository.findAll().size();
 
-        ReviewModel result = ReviewModel.builder()
-                .name(req.getName())
-                .seq(autoIncId+1)
-                .video(req.getVideo())
-                .comment(req.getComment())
-                .build();
+            ReviewModel result = ReviewModel.builder()
+                    .name(req.getName())
+                    .seq(autoIncId + 1)
+                    .video(req.getVideo())
+                    .comment(req.getComment())
+                    .build();
 
-        ReviewModel savedReview = reviewRepository.save(result);
+            ReviewModel savedReview = reviewRepository.save(result);
 
-        ReviewDto response = new ReviewDto();
-        response.setId(savedReview.getId());
-        response.setName(savedReview.getName());
-        response.setSeq(savedReview.getSeq());
-        response.setVideo(savedReview.getVideo());
-        response.setComment(savedReview.getComment());
-        response.setCreatedAt(savedReview.getCreatedAt());
-        response.setUpdatedAt(savedReview.getUpdatedAt());
+            ReviewDto response = new ReviewDto();
+            response.setId(savedReview.getId());
+            response.setName(savedReview.getName());
+            response.setSeq(savedReview.getSeq());
+            response.setVideo(savedReview.getVideo());
+            response.setComment(savedReview.getComment());
+            response.setCreatedAt(savedReview.getCreatedAt());
+            response.setUpdatedAt(savedReview.getUpdatedAt());
 
-        return response;
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create review: ",e);
+        }
     }
 
     public List<ReviewDto> getAllReviews(){
+        try{
+
         List<ReviewModel> res = reviewRepository.findAll();
         return res.stream().map(review->{
             ReviewDto response = new ReviewDto();
@@ -106,12 +116,17 @@ public class AdminService {
             response.setUpdatedAt(review.getUpdatedAt());
             return response;
         }).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
 
     //Booking Services
     public ResponseBook createBookings(RequestBook req) {
+        try{
+
         BookingModel result = BookingModel.builder()
                 .firstname((req.getFirstname()))
                 .lastname(req.getLastname())
@@ -131,10 +146,14 @@ public class AdminService {
         response.setCreatedAt(savedBook.getCreatedAt());
 
         return response;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to book: ",e);
+        }
     }
 
 
     public List<ResponseBook> getAllBookings() {
+        try{
         List<BookingModel> res = bookingRepository.findAll();
         return res.stream().map(booking->{
             ResponseBook response = new ResponseBook();
@@ -147,6 +166,9 @@ public class AdminService {
             response.setCreatedAt(booking.getCreatedAt());
             return response;
         }).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String deleteBookings(String email) {
