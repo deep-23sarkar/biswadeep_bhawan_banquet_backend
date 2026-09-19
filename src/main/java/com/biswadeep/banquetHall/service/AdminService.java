@@ -50,6 +50,7 @@ public class AdminService {
     }
 
     public List<PostDto> getAllPosts() {
+        try{
         List<PostPictureModel> res = pictureRepository.findAll();
         return res.stream().map(post->{
             PostDto response = new PostDto();
@@ -62,6 +63,9 @@ public class AdminService {
             response.setUpdatedAt(post.getUpdatedAt());
             return response;
         }).toList();
+        }catch(Exception e){
+            throw new RuntimeException("Error getting posts");
+        }
     }
 
     public ReviewDto createReview(RequestReviewDto req) {
