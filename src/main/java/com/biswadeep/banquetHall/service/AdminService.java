@@ -238,7 +238,15 @@ public class AdminService {
             throw new RuntimeException("Failed to get comments: ",e);
         }
     }
+    public String deleteComment(String id){
 
+        if(!commentRepository.existsById(id)){
+            return "Please, Provide the right id!!";
+        }
+
+        commentRepository.deleteById(id);
+        return "Review deleted successfully";
+    }
 
 
 

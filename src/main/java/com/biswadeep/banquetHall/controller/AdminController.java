@@ -80,6 +80,9 @@ public class AdminController {
     public ResponseEntity<List<CommentResDto>> getAllComments(){
         return ResponseEntity.ok(adminService.getAllComments());
     }
-
+    @DeleteMapping("/delete-comment/{id}")
+    public ResponseEntity<String> deleteComments(@PathVariable String id){
+        return ResponseEntity.ok(adminService.deleteComment(id));
+    }
 
 }
