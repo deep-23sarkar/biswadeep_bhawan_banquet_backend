@@ -2,9 +2,11 @@ package com.biswadeep.banquetHall.service;
 
 import com.biswadeep.banquetHall.Dto.*;
 import com.biswadeep.banquetHall.entity.BookingModel;
+import com.biswadeep.banquetHall.entity.CommentModel;
 import com.biswadeep.banquetHall.entity.PostPictureModel;
 import com.biswadeep.banquetHall.entity.ReviewModel;
 import com.biswadeep.banquetHall.repository.BookingRepository;
+import com.biswadeep.banquetHall.repository.CommentRepository;
 import com.biswadeep.banquetHall.repository.PictureRepository;
 import com.biswadeep.banquetHall.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class AdminService {
     private final PictureRepository pictureRepository;
     private final ReviewRepository reviewRepository;
     private final BookingRepository bookingRepository;
+    private final CommentRepository commentRepository;
 
     //Create post means uploads photo
     public PostDto createPost(RequestPostDto req){
@@ -171,6 +174,7 @@ public class AdminService {
         }
     }
 
+
     public String deleteBookings(String email) {
 
         if(!bookingRepository.existsByEmail(email)){
@@ -197,4 +201,52 @@ public class AdminService {
         reviewRepository.deleteById(id);
         return "Review deleted successfully";
     }
+
+    //Comment Service
+    public CommentResDto createComment(CommentReqDto req) {
+        try{
+            CommentModel result = CommentModel.builder()
+                    .name(req.getName())
+                    .text(req.getText())
+                    .build();
+            CommentModel savedComment = commentRepository.save(result);
+
+            CommentResDto response = new CommentResDto();
+            response.setId(savedComment.getId());
+            response.setName(savedComment.getName());
+            response.setText(savedComment.getText());
+            response.setCreatedAt(savedComment.getCreatedAt());
+            return response;
+
+        }catch(Exception e){
+            throw new RuntimeException("Failed to create comment: ",e);
+        }
+    }
+
+    public List<CommentResDto>  getAllComments() {
+        try{
+            List<CommentModel> res = commentRepository.findAll();
+            return res.stream().map(comment->{
+                CommentResDto response = new CommentResDto();
+                response.setId(comment.getId());
+                response.setName(comment.getName());
+                response.setText(comment.getText());
+                response.setCreatedAt(comment.getCreatedAt());
+                return response;
+            }).toList();
+        }catch(Exception e){
+            throw new RuntimeException("Failed to get comments: ",e);
+        }
+    }
+
+
+
+
+
 }
+
+
+
+
+
+

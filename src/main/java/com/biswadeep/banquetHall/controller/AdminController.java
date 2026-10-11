@@ -69,4 +69,17 @@ public class AdminController {
     public ResponseEntity<String> deleteReviews(@PathVariable String id){
         return ResponseEntity.ok(adminService.deleteReviews(id));
     }
+
+    //Comment Controller
+    @PostMapping("/comments")
+    public ResponseEntity<CommentResDto> createComments(@RequestBody CommentReqDto req){
+        return ResponseEntity.ok(adminService.createComment(req));
+    }
+
+    @GetMapping("/fetchcomments")
+    public ResponseEntity<List<CommentResDto>> getAllComments(){
+        return ResponseEntity.ok(adminService.getAllComments());
+    }
+
+
 }
